@@ -234,10 +234,13 @@ def create_claims_processing_graph():
 # Create global graph instance
 claims_graph = create_claims_processing_graph()
 
-# Save the workflow as a PNG for visualization
-png_bytes = claims_graph.get_graph().draw_mermaid_png()
-with open("graph.png", "wb") as f:
-    f.write(png_bytes)
+# Save the workflow as a PNG for visualization (non-fatal on Streamlit Cloud)
+try:
+    png_bytes = claims_graph.get_graph().draw_mermaid_png()
+    with open("graph.png", "wb") as f:
+        f.write(png_bytes)
+except Exception:
+    logger.warning("Could not generate graph.png (mermaid/graphviz may not be available)")
 
 
 
